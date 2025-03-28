@@ -10,8 +10,8 @@ Pide generar un token de acceso simple y con el hacer uso de las APIs, se usaran
 - Crear base de datos con el archivo database.sql
 - Pruebalo 😉
 
-## Probar
-Puedes probar las Apis en http://localhost/crud-persona/Api/
+> [!TIP]
+> Puedes probar las Apis en http://localhost/crud-persona/Api/
 
-La vista se encontrará en http://localhost/crud-persona/Views/
-git
+> [!IMPORTANT]
+> La vista se encontrará en http://localhost/crud-persona/Views/
