@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Eliminar index.php de la URL
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteRule ^api/(.*)$ index.php/api/$1 [L,QSA]
+# no es necesario que se ponga api para que funcione
+RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+
