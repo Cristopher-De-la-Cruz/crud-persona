@@ -18,7 +18,7 @@ class PersonaController extends Controller {
     public static function get() {
         try{
             $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
-            $limit = isset($_GET['limit']) ? max(1, intval($_GET['limit'])) : 5;
+            $limit = isset($_GET['limit']) ? max(1, intval($_GET['limit'])) : 10;
             $order_by = isset($_GET['order_by']) ? $_GET['order_by'] : 'id';
             $sort = (isset($_GET['sort']) && strtolower($_GET['sort']) === 'desc') ? 'DESC' : 'ASC';
             $search = isset($_GET['search']) ? $_GET['search'] : '';
@@ -62,7 +62,8 @@ class PersonaController extends Controller {
     public static function show($id) {
         try{
             $persona = self::query("SELECT * FROM personas WHERE id = ?", [$id]);
-            return self::response(true, @$persona[0], 200);
+            $found = count($persona) > 0;
+            return self::response(true, ["found" => $found,"persona" =>@$persona[0]], 200);
         } catch(Exception $e){
             return self::response(false, ["message" => $e->getMessage()], 500);
         }

@@ -28,7 +28,7 @@ class AuthController extends Controller {
         try{
             $token = Token::generate([
                 "type" => "UserExample"
-            ], 3600);
+            ], 3600*24);
     
             return self::response(true, ["token" => $token], 200);
         } catch(Exception $e){

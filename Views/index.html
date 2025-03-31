@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-PE">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,6 +7,201 @@
     <title>Crud Persona</title>
   </head>
   <body>
-    <h1 class="text-3xl font-bold text-red-500">Hello world!</h1>
+    <div class="w-full h-screen bg-zinc-900 p-0 m-0 overflow-auto text-white relative">
+
+      <div id="tokenGeneration" class="w-full h-full flex flex-col justify-center items-center gap-5" style="display: none;">
+        <div>
+          <h1 class="text-3xl font-bold italic">Genere un token para continuar 😉</h1>
+        </div>
+        <div>
+          <button id="generateToken" class="py-2 px-3 border rounded-3xl cursor-pointer duration-400 hover:bg-zinc-800 hover:scale-115"
+            >Generar token</button>
+        </div>
+      </div>
+      <div id="authBody" class="w-full h-full p-5 flex flex-col gap-5 items-center" style="display: none;">
+        <div class="w-full flex justify-center items-center p-2 relative">
+          <h1 class="text-3xl font-bold">Crud Personas</h1>
+          <div class="absolute right-5">
+            <button id="addbtnModal" class="duration-400 border-2 rounded-3xl py-1.5 px-3 hover:text-cyan-400 hover:font-semibold hover:scale-115 cursor-pointer">Agregar </button>
+          </div>
+        </div>
+        <div class="w-full p-2">
+          <table class="w-full border-[2.5px]">
+            <thead>
+              <tr class="bg-zinc-950 text-center border-[2.5px]">
+                <th class="py-2 px-3 border-[2.5px]">ID</th>
+                <th class="py-2 px-3 border-[2.5px]">Nombre</th>
+                <th class="py-2 px-3 border-[2.5px]">Apellido</th>
+                <th class="py-2 px-3 border-[2.5px]">Tipo</th>
+                <th class="py-2 px-3 border-[2.5px]">N° de documento</th>
+                <th class="py-2 px-3 border-[2.5px]">Sexo</th>
+                <th class="py-2 px-3 border-[2.5px]">Fecha de nacimiento</th>
+                <th class="py-2 px-3 border-[2.5px]">Dirección</th>
+                <th class="py-2 px-3 border-[2.5px]">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div id="modal-layout" style="background-color: rgba(26, 26, 26, 0.8); display: none;" class="z-10 w-full h-full absolute top-0 left-0 flex justify-center items-center">
+        <div id="modal" class="bg-zinc-950 z-50 w-1/3 rounded-xl border-2 py-5 px-4 flex flex-col gap-5">
+          <div class="w-full flex justify-center relative">
+            <h2 id="modalTitle" class="text-xl font-semibold">Agregar Persona</h2>
+            <button id="closeModal" class="absolute right-0 cursor-pointer hover:bg-zinc-800 rounded-full p-1">✖️</button>
+          </div>
+          <div class="grid grid-cols-2 gap-5">
+            <input type="text" hidden>
+            <div class="flex flex-col gap-1">
+              <label class="text-lg font-semibold">Nombre:</label>
+              <input type="text" class="border-2 py-1 px-2 rounded-lg bg-zinc-900" placeholder="Marco..." autocomplete="off">
+            </div>
+            <div class="flex flex-col gap-1">
+              <label class="text-lg font-semibold">Apellido:</label>
+              <input type="text" class="border-2 py-1 px-2 rounded-lg bg-zinc-900" placeholder="Martinez..." autocomplete="off">
+            </div>
+            <div class="flex flex-col gap-1">
+              <label class="text-lg font-semibold">Tipo de documento:</label>
+              <select name="" id="" class="border-2 py-1 px-2 rounded-lg bg-zinc-900 cursor-pointer">
+                <option value="1">DNI</option>
+                <option value="2">Pasaporte</option>
+                <option value="3">Carnet de extranjeria</option>
+              </select>
+            </div>
+            <div class="flex flex-col gap-1">
+              <label class="text-lg font-semibold">N° de documento:</label>
+              <input type="text" class="border-2 py-1 px-2 rounded-lg bg-zinc-900" placeholder="P4366918" autocomplete="off">
+            </div>
+            <div class="flex flex-col gap-1">
+              <label class="text-lg font-semibold">Sexo:</label>
+              <select name="" id="" class="border-2 py-1 px-2 rounded-lg bg-zinc-900 cursor-pointer">
+                <option value="H">Hombre</option>
+                <option value="M">Mujer</option>
+              </select>
+            </div>
+            <div class="flex flex-col gap-1">
+              <label class="text-lg font-semibold">Fecha de nacimiento:</label>
+              <input type="date" class="border-2 py-1 px-2 rounded-lg bg-zinc-900">
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-1 w-full">
+            <label class="text-lg font-semibold">Dirección:</label>
+            <input type="text" class="border-2 py-1 px-2 rounded-lg bg-zinc-900" placeholder="Av. Manzanares #123" autocomplete="off">
+          </div>
+          <div class="w-full flex justify-center items-center">
+            <button class="duration-400 h-full py-2 px-6 border-2 rounded-full cursor-pointer hover:text-lime-400 hover:scale-115">Guardar ✅</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script src="./js/jquery.js"></script>
+    <!-- <script src="./js/script.js"></script> -->
+    <script>
+      $(() => {
+        $("#tokenGeneration").hide();
+        $("#authBody").hide();
+
+        const toogleModal = () => {
+          $("#modal-layout").toggle(400);
+        }
+
+        $("#addbtnModal, #closeModal").click(toogleModal);
+
+        $("#modal-layout").click((e) => {
+          if (!$(e.target).closest("#modal").length) {
+            toogleModal();
+          }
+        });
+
+        const setCookie = (name, value, days) => {
+          const expires = new Date();
+          expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+          const expiresString = expires.toUTCString();
+          document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expiresString}; path=/`;
+        }
+
+        const getCookies = () => {
+          const cookies = document.cookie.split('; ').reduce((acc, cookie) => {
+            const [name, value] = cookie.split('=');
+            acc[name] = decodeURIComponent(value);
+            return acc;
+          }, {});
+          
+          return cookies;
+        }
+
+        const cookies = getCookies();
+
+        if (!cookies.token) {
+          $("#tokenGeneration").show();
+          $("#generateToken").click(async() => {
+            const response = await fetch("http://localhost/crud-persona/api/generateToken");
+            const data = await response.json();
+            if(data.success){
+              setCookie("token", data.body.token, 1);
+              $("#tokenGeneration").hide();
+              $("#authBody").show();
+            } else {
+              alert("Error al generar el token");
+              console.error(data.body.message);
+            }
+            
+          });
+        } else {
+          $("#authBody").show();
+          getPersonas();
+        }
+
+        async function getPersonas(){
+          const response = await fetch("http://localhost/crud-persona/api/persona", {
+            method: "GET",
+            headers: {
+              "Authorization": `Bearer ${cookies.token}`,
+              "Content-Type": "application/json"
+            },
+          });
+            const data = await response.json();
+            if(data.success){
+              $("#tableBody").empty();
+              data.body.data.map((persona) => {
+                let tipo = persona.tipo_documento == 1 ? "DNI" : persona.tipo_documento == 2 ? "Pasaporte" : "Carnet de extranjeria";
+                let sexo = persona.sexo == "H" ? "Hombre" : "Mujer";
+
+                $("#tableBody").append(`
+                  <tr class="bg-zinc-800 text-center border">
+                    <td class="py-2 px-3 border">${persona.id}</td>
+                    <td class="py-2 px-3 border">${persona.nombre}</td>
+                    <td class="py-2 px-3 border">${persona.apellido}</td>
+                    <td class="py-2 px-3 border">${tipo}</td>
+                    <td class="py-2 px-3 border">${persona.numero_documento}</td>
+                    <td class="py-2 px-3 border">${sexo}</td>
+                    <td class="py-2 px-3 border">${persona.fecha_nacimiento}</td>
+                    <td class="py-2 px-3 border">${persona.direccion}</td>
+                    <td class="py-2 px-3 border grid grid-cols-2 gap-2">
+                      <button class="btn-edit duration-400 py-1 w-full border-2 border-fuchsia-600 rounded-2xl cursor-pointer hover:scale-110 hover:text-fuchsia-600 hover:font-semibold" data-id="${persona.id}">Editar</button>
+                      <button class="btn-delete duration-400 py-1 w-full border-2 border-red-600 rounded-2xl cursor-pointer hover:scale-110 hover:text-red-600 hover:font-semibold" data-id="${persona.id}">Eliminar</button>
+                    </td>
+                  </tr>`);
+              });
+            } else {
+              alert("Error al obtener data");
+              console.error(data.body.message);
+            }
+        }
+
+        $("#tableBody").on("click", ".btn-edit", function() {
+          const personaId = $(this).data("id");
+          console.log("Editar persona con id:", personaId);
+        });
+
+
+        
+
+      });
+    </script>
   </body>
 </html>
